@@ -17,166 +17,253 @@ st.set_page_config(
 )
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# APPLE-STYLE UI CSS
+# PREMIUM DARK GLASS UI
 # ═══════════════════════════════════════════════════════════════════════════════
 st.markdown("""
 <style>
-/* ─── Apple Fonts ─── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-html, body, [class*="css"] { 
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Roboto", sans-serif !important; 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+
+/* ——— ROOT ——— */
+html, body, [class*="css"] {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
     -webkit-font-smoothing: antialiased;
 }
 .stApp {
-    background-color: #000000;
-    color: #F5F5F7;
+    background: linear-gradient(160deg, #0c0c1d 0%, #0a0a14 40%, #0d0b1a 70%, #08080f 100%);
+    color: #e4e4e7;
 }
 
-/* ─── Scrollbar ─── */
-::-webkit-scrollbar { width: 4px; height: 4px; }
+/* ——— SCROLLBAR ——— */
+::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
+::-webkit-scrollbar-thumb { background: rgba(139,92,246,0.4); border-radius: 10px; }
 
-/* ─── Hero Title ─── */
-.hero-title {
-    font-size: 2.8rem !important;
-    font-weight: 700;
-    letter-spacing: -1px;
-    color: #F5F5F7;
-    animation: fadeSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    margin-bottom: 0 !important;
+/* ——— HERO ——— */
+.hero-container {
+    padding: 1rem 0 0.5rem 0;
+    animation: heroFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-.hero-subtitle {
-    color: #8E8E93;
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 1px;
+@keyframes heroFade {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.hero-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
     text-transform: uppercase;
-    animation: fadeSlideIn 1s ease 0.2s both;
+    letter-spacing: 4px;
+    color: #8B5CF6;
+    margin-bottom: 6px;
+}
+.hero-title {
+    font-family: 'Playfair Display', serif !important;
+    font-size: 2.6rem !important;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffffff 0%, #d4d4d8 40%, #8B5CF6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0 !important;
+    line-height: 1.15;
+}
+.hero-desc {
+    font-size: 0.82rem;
+    color: #52525b;
+    margin-top: 8px;
+    font-weight: 400;
 }
 
-/* ─── Animations ─── */
-@keyframes fadeSlideIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0);    }
+/* ——— ANIMATIONS ——— */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
-.fade-in { animation: fadeSlideIn 0.6s ease forwards; }
+@keyframes glowPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(139,92,246,0.0); }
+    50%      { box-shadow: 0 0 20px 4px rgba(139,92,246,0.12); }
+}
+@keyframes shimmerBar {
+    0%   { background-position: -600px 0; }
+    100% { background-position: 600px 0; }
+}
+.fade-up { animation: fadeUp 0.7s ease forwards; }
 
-/* ─── Metric Tiles (Frosted Glass Squircle) ─── */
+/* ——— METRIC CARDS (Glassmorphism) ——— */
 [data-testid="stMetric"] {
-    background: rgba(28, 28, 30, 0.6);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 1.5rem !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(22, 22, 35, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(139, 92, 246, 0.15);
+    border-radius: 18px;
+    padding: 1.4rem 1.5rem !important;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+[data-testid="stMetric"]::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #8B5CF6, #C084FC, transparent);
+    background-size: 600px 2px;
+    animation: shimmerBar 4s ease infinite;
 }
 [data-testid="stMetric"]:hover {
-    background: rgba(44, 44, 46, 0.8);
-    transform: scale(1.02);
+    border-color: rgba(139, 92, 246, 0.5);
+    transform: translateY(-4px);
+    animation: glowPulse 2.5s ease infinite;
 }
 [data-testid="stMetricValue"] {
-    color: #F5F5F7 !important;
-    font-size: 2.5rem !important;
-    font-weight: 700 !important;
-    letter-spacing: -1.2px;
+    color: #FAFAFA !important;
+    font-size: 2.2rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -1px;
 }
 [data-testid="stMetricLabel"] {
-    color: #8E8E93 !important;
-    font-size: 0.8rem !important;
-    font-weight: 500;
+    color: #71717a !important;
+    font-size: 0.72rem !important;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
 }
-[data-testid="stMetricDelta"] { font-size: 0.8rem !important; font-weight: 500; }
+[data-testid="stMetricDelta"] {
+    font-size: 0.78rem !important;
+    font-weight: 600;
+}
 
-/* ─── Sidebar ─── */
+/* ——— SIDEBAR ——— */
 section[data-testid="stSidebar"] {
-    background: #1C1C1E;
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    background: linear-gradient(180deg, #111119 0%, #0c0c14 100%);
+    border-right: 1px solid rgba(139,92,246,0.08);
 }
-section[data-testid="stSidebar"] * { color: #8E8E93; }
+section[data-testid="stSidebar"] * { color: #a1a1aa !important; }
 
-/* ─── Dividers ─── */
+/* ——— DIVIDERS ——— */
 hr {
     border: none !important;
     height: 1px !important;
-    background: rgba(255,255,255,0.1) !important;
-    margin: 1.5rem 0 !important;
+    background: linear-gradient(90deg, transparent, rgba(139,92,246,0.2), transparent) !important;
+    margin: 1.8rem 0 !important;
 }
 
-/* ─── Headings ─── */
-h1, h2, h3 { color: #F5F5F7 !important; font-weight: 700 !important; letter-spacing: -0.5px; }
-h3 { font-size: 1.1rem !important; font-weight: 600 !important; }
+/* ——— HEADINGS ——— */
+h1, h2, h3 { color: #FAFAFA !important; font-weight: 700 !important; }
+h3 { font-size: 1.05rem !important; }
 
-/* ─── Chat Messages (iMessage-like bubbles) ─── */
+/* ——— CHAT BUBBLES ——— */
 [data-testid="stChatMessage"] {
-    background: #1C1C1E !important;
-    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-    border-radius: 22px !important;
+    background: rgba(22, 22, 35, 0.65) !important;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(139,92,246,0.1) !important;
+    border-radius: 20px !important;
     margin-bottom: 1rem;
     padding: 1.2rem 1.5rem !important;
-    animation: fadeSlideIn 0.4s ease;
-}
-
-/* ─── Chat Input ─── */
-div[data-testid="stChatInput"] textarea {
-    background: #1C1C1E !important;
-    color: #F5F5F7 !important;
-    border: 1px solid rgba(255,255,255,0.1) !important;
-    border-radius: 20px !important;
-    font-size: 0.95rem !important;
+    animation: fadeUp 0.4s ease;
     transition: border-color 0.3s;
 }
-div[data-testid="stChatInput"] textarea:focus { border-color: #0A84FF !important; }
+[data-testid="stChatMessage"]:hover {
+    border-color: rgba(139,92,246,0.3) !important;
+}
 
-/* ─── Buttons ─── */
+/* ——— CHAT INPUT ——— */
+div[data-testid="stChatInput"] textarea {
+    background: rgba(22, 22, 35, 0.8) !important;
+    color: #e4e4e7 !important;
+    border: 1px solid rgba(139,92,246,0.15) !important;
+    border-radius: 18px !important;
+    font-size: 0.92rem !important;
+    padding: 14px 18px !important;
+    transition: all 0.3s;
+}
+div[data-testid="stChatInput"] textarea:focus {
+    border-color: #8B5CF6 !important;
+    box-shadow: 0 0 0 3px rgba(139,92,246,0.15) !important;
+}
+
+/* ——— BUTTONS ——— */
 .stButton > button {
-    background: #0A84FF !important;
+    background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%) !important;
     color: #FFFFFF !important;
     border: none !important;
     border-radius: 12px !important;
     font-weight: 600 !important;
-    font-size: 0.9rem !important;
-    transition: all 0.2s;
+    font-size: 0.85rem !important;
+    letter-spacing: 0.5px;
+    transition: all 0.25s;
+    padding: 0.6rem 1.2rem !important;
 }
 .stButton > button:hover {
-    background: #007AFF !important;
-    transform: scale(0.98);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.35);
 }
 
-/* ─── Radio buttons ─── */
-.stRadio > label { color: #8E8E93 !important; }
+/* ——— RADIO ——— */
+.stRadio > label { color: #71717a !important; }
 .stRadio [data-testid="stMarkdownContainer"] p {
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-weight: 500;
 }
 
-/* ─── Section Labels ─── */
+/* ——— SECTION TAGS ——— */
 .section-tag {
-    display: inline-block;
-    color: #0A84FF;
-    font-size: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(139, 92, 246, 0.08);
+    color: #A78BFA;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 1px solid rgba(139,92,246,0.15);
+    margin-bottom: 1rem;
+}
+
+/* ——— CHART CONTAINERS ——— */
+.chart-card {
+    background: rgba(22, 22, 35, 0.5);
+    border: 1px solid rgba(139,92,246,0.1);
+    border-radius: 18px;
+    padding: 1.2rem;
+    margin-bottom: 0.5rem;
+    transition: border-color 0.3s;
+}
+.chart-card:hover { border-color: rgba(139,92,246,0.3); }
+.chart-label {
+    color: #a1a1aa;
+    font-size: 0.78rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 0.5rem;
+    margin-bottom: 10px;
 }
 
-/* ─── Plotly Chart background override ─── */
-.js-plotly-plot { border-radius: 20px; overflow: hidden; }
+/* ——— PLOTLY ——— */
+.js-plotly-plot { border-radius: 14px; overflow: hidden; }
 
-/* ─── File Uploader Override ─── */
+/* ——— FILE UPLOADER ——— */
 [data-testid="stFileUploader"] {
-    background: #1C1C1E !important;
-    border: 1px dashed rgba(255,255,255,0.2) !important;
-    border-radius: 12px !important;
+    border: 1px dashed rgba(139,92,246,0.25) !important;
+    border-radius: 14px !important;
+    background: rgba(22,22,35,0.4) !important;
 }
+[data-testid="stFileUploader"]:hover {
+    border-color: rgba(139,92,246,0.5) !important;
+}
+
+/* ——— SPINNER ——— */
+.stSpinner > div { border-top-color: #8B5CF6 !important; }
+
+/* ——— SUCCESS MESSAGE ——— */
+.stSuccess { border-radius: 12px !important; }
 </style>
 """, unsafe_allow_html=True)
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# STATE
+# STATE INIT
 # ═══════════════════════════════════════════════════════════════════════════════
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -188,30 +275,33 @@ if "category_filter" not in st.session_state:
     st.session_state.category_filter = "All"
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# DATA
+# DATA PIPELINE
 # ═══════════════════════════════════════════════════════════════════════════════
-df = load_products()
-df['gross_margin'] = (df['price'] - df['cost']) / df['price'] * 100
-df['days_to_stockout'] = df.apply(
+df_all = load_products()
+df_all['gross_margin'] = (df_all['price'] - df_all['cost']) / df_all['price'] * 100
+df_all['days_to_stockout'] = df_all.apply(
     lambda r: r['stock_quantity'] / r['avg_daily_sales'] if r['avg_daily_sales'] > 0 else 999, axis=1
 )
-df['revenue_proxy'] = df['price'] * df['avg_daily_sales']
-df['stock_status'] = df['days_to_stockout'].apply(
+df_all['revenue_proxy'] = df_all['price'] * df_all['avg_daily_sales']
+df_all['stock_status'] = df_all['days_to_stockout'].apply(
     lambda d: '🔴 Critical' if d < 7 else ('🟡 Low' if d <= 14 else '🟢 Healthy')
 )
 
+df = df_all.copy()
 if st.session_state.category_filter != "All":
-    df = df[df['category'] == st.session_state.category_filter]
+    df = df_all[df_all['category'] == st.session_state.category_filter]
 
+# ——— Plotly Defaults ———
 PLOTLY_LAYOUT = dict(
     paper_bgcolor='rgba(0,0,0,0)',
     plot_bgcolor='rgba(0,0,0,0)',
-    font=dict(family='-apple-system, BlinkMacSystemFont, "SF Pro Display"', color='#8E8E93', size=12),
-    margin=dict(l=10, r=10, t=30, b=10),
+    font=dict(family='Inter, sans-serif', color='#a1a1aa', size=12),
+    margin=dict(l=10, r=10, t=10, b=10),
     showlegend=False,
 )
-APPLE_BLUE = '#0A84FF'
-DARK = '#1C1C1E'
+PURPLE    = '#8B5CF6'
+PURPLE_LT = '#C084FC'
+DARK_CARD = 'rgba(22, 22, 35, 0.5)'
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # SIDEBAR
@@ -220,59 +310,68 @@ with st.sidebar:
     if os.path.exists("app/logo.png"):
         st.image("app/logo.png", use_container_width=True)
     else:
-        st.markdown("<h2 style='color:#D4AF37;text-align:center;'>🛍️ SC</h2>", unsafe_allow_html=True)
+        st.markdown("""
+        <div style='text-align:center;padding:1rem 0;'>
+            <span style='font-family:Playfair Display,serif;font-size:2.2rem;font-weight:700;
+            background:linear-gradient(135deg,#8B5CF6,#C084FC);-webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;'>SC</span>
+            <p style='color:#52525b;font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;
+            margin-top:4px;font-weight:600;'>StyleCraft</p>
+        </div>
+        """, unsafe_allow_html=True)
 
-    st.markdown("""
-    <p style='color:#2d2d4e;font-size:0.72rem;text-align:center;letter-spacing:2px;
-    text-transform:uppercase;margin-top:-8px;margin-bottom:12px;'>
-    Product Intelligence</p>
-    """, unsafe_allow_html=True)
     st.divider()
 
-    st.markdown("<p style='color:#8E8E93;font-size:0.75rem;font-weight:600;margin-bottom:8px;'>Scope</p>", unsafe_allow_html=True)
+    # Category Filter
+    st.markdown("<p style='color:#8B5CF6 !important;font-size:0.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;'>Category</p>", unsafe_allow_html=True)
     selected_category = st.radio("", CATEGORIES, index=CATEGORIES.index(st.session_state.category_filter), label_visibility="collapsed")
     st.session_state.category_filter = selected_category
     st.divider()
 
-    st.markdown("<p style='color:#8E8E93;font-size:0.75rem;font-weight:600;margin-bottom:8px;'>Upload File for Analysis</p>", unsafe_allow_html=True)
-    uploaded_csv = st.file_uploader("Upload custom catalog (.csv)", type=["csv"], label_visibility="collapsed")
+    # File Uploader
+    st.markdown("<p style='color:#8B5CF6 !important;font-size:0.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;'>Upload File for Analysis</p>", unsafe_allow_html=True)
+    uploaded_csv = st.file_uploader("Upload CSV", type=["csv"], label_visibility="collapsed")
     if uploaded_csv is not None:
         with open("retailmind_products.csv", "wb") as f:
             f.write(uploaded_csv.getbuffer())
-        st.success("Dataset Updated! Click Refresh.")
+        st.success("✅ Dataset updated! Click Refresh.")
 
-    if st.button("Refresh Dashboard", use_container_width=True):
+    if st.button("⟲  Refresh Dashboard", use_container_width=True):
         st.session_state.messages = []
         st.session_state.memory = ConversationMemory()
         st.session_state.briefing_shown = False
         st.rerun()
 
     st.divider()
-    # Quick Stats in sidebar
+
+    # Quick Stats
     critical_n = int((df['days_to_stockout'] < 7).sum())
     st.markdown(f"""
-    <div style='space-y:0.4rem'>
-        <p style='color:#8E8E93;font-size:0.75rem;font-weight:600;'>Quick Stats</p>
-        <p style='color:#F5F5F7;font-size:0.85rem;margin:6px 0;'>📦 {len(df)} Total SKUs</p>
-        <p style='color:#FF453A;font-size:0.85rem;margin:6px 0;'>🔴 {critical_n} Critical Stocks</p>
-        <p style='color:{APPLE_BLUE};font-size:0.85rem;margin:6px 0;'>📈 {df['gross_margin'].mean():.1f}% Avg Margin</p>
-        <p style='color:#32ADE6;font-size:0.85rem;margin:6px 0;'>⭐ {df['avg_rating'].mean():.2f} Avg Rating</p>
+    <div style='padding:0.8rem;background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.1);
+    border-radius:14px;'>
+        <p style='color:#8B5CF6 !important;font-size:0.68rem;font-weight:700;letter-spacing:2px;
+        text-transform:uppercase;margin-bottom:10px;'>Live Stats</p>
+        <p style='color:#e4e4e7 !important;font-size:0.88rem;margin:8px 0;font-weight:500;'>📦 {len(df)} SKUs</p>
+        <p style='color:#ef4444 !important;font-size:0.88rem;margin:8px 0;font-weight:500;'>🚨 {critical_n} Critical</p>
+        <p style='color:#8B5CF6 !important;font-size:0.88rem;margin:8px 0;font-weight:500;'>💰 {df['gross_margin'].mean():.1f}% Margin</p>
+        <p style='color:#22d3ee !important;font-size:0.88rem;margin:8px 0;font-weight:500;'>⭐ {df['avg_rating'].mean():.2f} Rating</p>
     </div>
     """, unsafe_allow_html=True)
+
     st.divider()
-    st.markdown("<p style='color:#1e1e35;font-size:0.68rem;text-align:center;line-height:1.6;'>GPT-4o-mini · RetailMind<br/>StyleCraft © 2025</p>", unsafe_allow_html=True)
-
+    st.markdown("<p style='color:#27272a !important;font-size:0.65rem;text-align:center;line-height:1.8;'>GPT-4o-mini · RetailMind<br/>StyleCraft © 2025</p>", unsafe_allow_html=True)
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# HERO HEADER
+# HERO
 # ═══════════════════════════════════════════════════════════════════════════════
-st.markdown("""
-<div class='fade-in' style='margin-bottom:0.5rem;'>
-    <p class='hero-subtitle'>StyleCraft · AI Product Intelligence</p>
+st.markdown(f"""
+<div class='hero-container'>
+    <p class='hero-eyebrow'>StyleCraft · Product Intelligence</p>
     <p class='hero-title'>RetailMind Dashboard</p>
+    <p class='hero-desc'>Live insights across <strong style='color:#A78BFA;'>{len(df)}</strong> SKUs &nbsp;·&nbsp;
+    <strong style='color:#ef4444;'>{int((df['days_to_stockout']<7).sum())}</strong> critical alerts today</p>
 </div>
 """, unsafe_allow_html=True)
-st.markdown(f"<p style='color:#2d2d4e;font-size:0.78rem;margin-top:4px;'>Live insights across {len(df)} SKUs · {df['stock_status'].str.contains('Critical').sum()} critical alerts today</p>", unsafe_allow_html=True)
 st.divider()
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -288,124 +387,118 @@ c4.metric("Avg Rating", f"{df['avg_rating'].mean():.2f} ⭐")
 st.divider()
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# ANALYTICS CHARTS — ROW 1
+# CHARTS ROW 1
 # ═══════════════════════════════════════════════════════════════════════════════
 st.markdown("<span class='section-tag'>📈 Analytics Intelligence</span>", unsafe_allow_html=True)
 ch1, ch2 = st.columns(2)
 
-# Chart 1 — Inventory Risk Radar
 with ch1:
-    st.markdown("<p style='color:#8E8E93;font-size:0.85rem;font-weight:600;margin-bottom:8px;'>Days to Stockout (Top 15 Risk)</p>", unsafe_allow_html=True)
+    st.markdown("<div class='chart-card'><p class='chart-label'>⏱ Days to Stockout — Top 15 Risk</p>", unsafe_allow_html=True)
     top_risk = df[df['days_to_stockout'] < 999].nsmallest(15, 'days_to_stockout').copy()
     top_risk['days_to_stockout'] = top_risk['days_to_stockout'].clip(upper=30)
-    top_risk['short_name'] = top_risk['product_name'].apply(lambda x: x[:18] + '…' if len(x) > 18 else x)
-    color_map = {'🔴 Critical': '#FF453A', '🟡 Low': '#FF9F0A', '🟢 Healthy': '#32ADE6'}
+    top_risk['short_name'] = top_risk['product_name'].apply(lambda x: x[:20] + '…' if len(x) > 20 else x)
+    color_map = {'🔴 Critical': '#ef4444', '🟡 Low': '#f59e0b', '🟢 Healthy': '#22d3ee'}
     bar_colors = [color_map[s] for s in top_risk['stock_status']]
     fig1 = go.Figure(go.Bar(
-        x=top_risk['days_to_stockout'],
-        y=top_risk['short_name'],
-        orientation='h',
-        marker=dict(color=bar_colors, line=dict(color='rgba(0,0,0,0)', width=0)),
+        x=top_risk['days_to_stockout'], y=top_risk['short_name'], orientation='h',
+        marker=dict(color=bar_colors, line=dict(width=0)),
         text=[f"{d:.1f}d" for d in top_risk['days_to_stockout']],
-        textposition='outside',
-        textfont=dict(color='#8E8E93', size=11),
+        textposition='outside', textfont=dict(color='#a1a1aa', size=11),
         hovertemplate='<b>%{y}</b><br>Days left: %{x:.1f}<extra></extra>'
     ))
-    fig1.update_layout(**PLOTLY_LAYOUT, height=340,
+    fig1.update_layout(**PLOTLY_LAYOUT, height=380,
         xaxis=dict(showgrid=False, showticklabels=False, zeroline=False),
-        yaxis=dict(showgrid=False, tickfont=dict(color='#8E8E93', size=11))
+        yaxis=dict(showgrid=False, tickfont=dict(color='#a1a1aa', size=11))
     )
     st.plotly_chart(fig1, use_container_width=True, config=dict(displayModeBar=False))
+    st.markdown("</div>", unsafe_allow_html=True)
 
-# Chart 2 — Gross Margin by Category
 with ch2:
-    st.markdown("<p style='color:#8E8E93;font-size:0.85rem;font-weight:600;margin-bottom:8px;'>Avg Gross Margin by Category</p>", unsafe_allow_html=True)
+    st.markdown("<div class='chart-card'><p class='chart-label'>💰 Avg Gross Margin by Category</p>", unsafe_allow_html=True)
     cat_margin = df.groupby('category').agg(avg_margin=('gross_margin','mean'), skus=('product_id','count')).reset_index()
     fig2 = go.Figure()
     fig2.add_trace(go.Bar(
-        x=cat_margin['category'],
-        y=cat_margin['avg_margin'],
+        x=cat_margin['category'], y=cat_margin['avg_margin'],
         marker=dict(
             color=cat_margin['avg_margin'],
-            colorscale=[[0, '#1C1C1E'], [0.5, '#0A84FF'], [1, '#64D2FF']],
-            line=dict(color='rgba(0,0,0,0)', width=0)
+            colorscale=[[0, '#1e1b4b'], [0.5, '#7C3AED'], [1, '#C084FC']],
+            line=dict(width=0)
         ),
         text=[f"{m:.1f}%" for m in cat_margin['avg_margin']],
-        textposition='outside',
-        textfont=dict(color='#8E8E93', size=12),
+        textposition='outside', textfont=dict(color='#a1a1aa', size=12),
         hovertemplate='<b>%{x}</b><br>Avg Margin: %{y:.1f}%<extra></extra>'
     ))
     fig2.add_shape(type='line', x0=-0.5, x1=len(cat_margin)-0.5, y0=20, y1=20,
-                   line=dict(color='#FF453A', dash='dot', width=1.5))
-    fig2.add_annotation(x=len(cat_margin)-1, y=21.5, text="⚠ 20% threshold", showarrow=False,
-                        font=dict(color='#FF453A', size=11))
-    fig2.update_layout(**PLOTLY_LAYOUT, height=340,
-        xaxis=dict(showgrid=False, tickfont=dict(color='#8E8E93', size=12)),
-        yaxis=dict(showgrid=True, gridcolor='rgba(255,255,255,0.05)', tickfont=dict(color='#8E8E93', size=11), zeroline=False)
+                   line=dict(color='#ef4444', dash='dot', width=1.5))
+    fig2.add_annotation(x=len(cat_margin)-1, y=22, text="⚠ 20% threshold", showarrow=False,
+                        font=dict(color='#ef4444', size=10))
+    fig2.update_layout(**PLOTLY_LAYOUT, height=380,
+        xaxis=dict(showgrid=False, tickfont=dict(color='#a1a1aa', size=11)),
+        yaxis=dict(showgrid=True, gridcolor='rgba(139,92,246,0.06)', tickfont=dict(color='#71717a', size=10), zeroline=False)
     )
     st.plotly_chart(fig2, use_container_width=True, config=dict(displayModeBar=False))
+    st.markdown("</div>", unsafe_allow_html=True)
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# ANALYTICS ROW 2
+# CHARTS ROW 2
 # ═══════════════════════════════════════════════════════════════════════════════
 ch3, ch4 = st.columns(2)
 
-# Chart 3 — Top 10 Revenue Products
 with ch3:
-    st.markdown("<p style='color:#8E8E93;font-size:0.85rem;font-weight:600;margin-bottom:8px;'>Top 10 Revenue Engines (Daily)</p>", unsafe_allow_html=True)
+    st.markdown("<div class='chart-card'><p class='chart-label'>🏆 Top 10 Revenue Engines (Daily)</p>", unsafe_allow_html=True)
     top_rev = df.nlargest(10, 'revenue_proxy').copy()
-    top_rev['short_name'] = top_rev['product_name'].apply(lambda x: x[:16] + '…' if len(x) > 16 else x)
+    top_rev['short_name'] = top_rev['product_name'].apply(lambda x: x[:18] + '…' if len(x) > 18 else x)
     fig3 = go.Figure(go.Bar(
-        x=top_rev['revenue_proxy'],
-        y=top_rev['short_name'],
-        orientation='h',
+        x=top_rev['revenue_proxy'], y=top_rev['short_name'], orientation='h',
         marker=dict(
             color=top_rev['revenue_proxy'],
-            colorscale=[[0,'#1C1C1E'],[1,'#0A84FF']],
+            colorscale=[[0, '#1e1b4b'], [1, '#8B5CF6']],
         ),
         text=[f"₹{r:,.0f}" for r in top_rev['revenue_proxy']],
-        textposition='outside',
-        textfont=dict(color='#8E8E93', size=11),
+        textposition='outside', textfont=dict(color='#a1a1aa', size=11),
         hovertemplate='<b>%{y}</b><br>Daily Revenue: ₹%{x:,.0f}<extra></extra>'
     ))
-    fig3.update_layout(**PLOTLY_LAYOUT, height=320,
+    fig3.update_layout(**PLOTLY_LAYOUT, height=360,
         xaxis=dict(showgrid=False, showticklabels=False, zeroline=False),
-        yaxis=dict(showgrid=False, tickfont=dict(color='#8E8E93', size=11))
+        yaxis=dict(showgrid=False, tickfont=dict(color='#a1a1aa', size=11))
     )
     st.plotly_chart(fig3, use_container_width=True, config=dict(displayModeBar=False))
+    st.markdown("</div>", unsafe_allow_html=True)
 
-# Chart 4 — Rating vs Return Rate scatter
 with ch4:
-    st.markdown("<p style='color:#8E8E93;font-size:0.85rem;font-weight:600;margin-bottom:8px;'>Rating vs Return Rate Risk Map</p>", unsafe_allow_html=True)
+    st.markdown("<div class='chart-card'><p class='chart-label'>⚠ Rating vs Return Rate Risk Map</p>", unsafe_allow_html=True)
     fig4 = go.Figure()
-    for cat in df['category'].unique():
+    palette = ['#8B5CF6', '#22d3ee', '#f59e0b', '#ef4444', '#10b981', '#ec4899']
+    for i, cat in enumerate(df['category'].unique()):
         sub = df[df['category'] == cat]
         fig4.add_trace(go.Scatter(
-            x=sub['return_rate'] * 100,
-            y=sub['avg_rating'],
-            mode='markers',
-            name=cat,
-            marker=dict(size=sub['revenue_proxy']/80 + 8, opacity=0.85,
-                        line=dict(color='rgba(10, 132, 255, 0.4)', width=1)),
+            x=sub['return_rate'] * 100, y=sub['avg_rating'],
+            mode='markers', name=cat,
+            marker=dict(
+                size=sub['revenue_proxy']/60 + 8, opacity=0.85,
+                color=palette[i % len(palette)],
+                line=dict(color='rgba(255,255,255,0.15)', width=1)
+            ),
             text=sub['product_name'],
             hovertemplate='<b>%{text}</b><br>Return: %{x:.1f}%<br>Rating: %{y}<extra></extra>'
         ))
     fig4.add_shape(type='rect', x0=15, x1=35, y0=1, y1=3.5,
-                   fillcolor='rgba(255, 69, 58, 0.05)', line=dict(color='#FF453A', width=1, dash='dot'))
-    fig4.add_annotation(x=25, y=3.3, text="⚠ Risk Zone", showarrow=False, font=dict(color='#FF453A', size=11))
-    
+                   fillcolor='rgba(239, 68, 68, 0.04)', line=dict(color='#ef4444', width=1, dash='dot'))
+    fig4.add_annotation(x=25, y=3.3, text="⚠ Risk Zone", showarrow=False, font=dict(color='#ef4444', size=10))
+
     layout_copy = PLOTLY_LAYOUT.copy()
     layout_copy.update(
-        height=320,
+        height=360,
         showlegend=True,
-        legend=dict(font=dict(color='#8E8E93', size=11), bgcolor='rgba(0,0,0,0)', x=1, y=1),
-        xaxis=dict(showgrid=True, gridcolor='rgba(255,255,255,0.05)', zeroline=False, title='Return Rate (%)',
-                   title_font=dict(color='#8E8E93', size=11), tickfont=dict(color='#8E8E93', size=10)),
-        yaxis=dict(showgrid=True, gridcolor='rgba(255,255,255,0.05)', zeroline=False, title='Avg Rating',
-                   title_font=dict(color='#8E8E93', size=11), tickfont=dict(color='#8E8E93', size=10))
+        legend=dict(font=dict(color='#a1a1aa', size=10), bgcolor='rgba(0,0,0,0)', x=1, y=1),
+        xaxis=dict(showgrid=True, gridcolor='rgba(139,92,246,0.06)', zeroline=False, title='Return Rate (%)',
+                   title_font=dict(color='#71717a', size=10), tickfont=dict(color='#71717a', size=9)),
+        yaxis=dict(showgrid=True, gridcolor='rgba(139,92,246,0.06)', zeroline=False, title='Avg Rating',
+                   title_font=dict(color='#71717a', size=10), tickfont=dict(color='#71717a', size=9))
     )
     fig4.update_layout(**layout_copy)
     st.plotly_chart(fig4, use_container_width=True, config=dict(displayModeBar=False))
+    st.markdown("</div>", unsafe_allow_html=True)
 
 st.divider()
 
@@ -424,7 +517,7 @@ if not st.session_state.briefing_shown:
             if "429" in err_str or "quota" in err_str.lower() or "billing" in err_str.lower():
                 fallback = """## 🌅 Daily Briefing — StyleCraft Product Intelligence
 
-> ⚠️ **AI Generation Offline** — OpenAI quota exceeded. Top up at [platform.openai.com/billing](https://platform.openai.com/billing) and click **↺ Refresh Briefing** to activate.
+> ⚠️ **AI Generation Offline** — OpenAI quota exceeded. Top up at [platform.openai.com/billing](https://platform.openai.com/billing) and click **⟲ Refresh Dashboard** to activate.
 
 **Live Data Briefing (from catalog):**
 
@@ -448,7 +541,7 @@ if not st.session_state.briefing_shown:
 # CHAT INTERFACE
 # ═══════════════════════════════════════════════════════════════════════════════
 st.markdown("<span class='section-tag'>💬 AI Intelligence Agent</span>", unsafe_allow_html=True)
-st.markdown("<p style='color:#2d2d4e;font-size:0.78rem;margin-bottom:1rem;'>Ask about inventory, pricing, reviews, or category performance. Powered by GPT-4o-mini.</p>", unsafe_allow_html=True)
+st.markdown("<p style='color:#52525b;font-size:0.8rem;margin-bottom:1rem;'>Ask about inventory, pricing, reviews, or category performance. Powered by GPT-4o-mini.</p>", unsafe_allow_html=True)
 
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
